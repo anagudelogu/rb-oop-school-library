@@ -4,16 +4,20 @@ require './lib/person'
 require './lib/student'
 require './lib/teacher'
 require './lib/book'
+require './lib/rental'
 
 class App
+  attr_reader :books, :people, :rentals
+
   def initialize
     @people = []
     @books = []
+    @rentals = {}
   end
 
   def list_books
     if @books.size.positive?
-      puts 'Here are the people registered at the moment:'
+      puts 'Here are the books registered at the moment:'
       @books.each { |book| puts "Title: \"#{book.title}\" Author: #{book.author}" }
     else
       puts 'There are no books registered at the moment'
@@ -36,6 +40,24 @@ class App
 
   def create_book(title, author)
     @books << Book.new(title, author)
+  end
+
+  def create_rental(date, person_idx, book_idx)
+    person = @people[person_idx]
+    book = @books[book_idx]
+    rental = Rental.new(date, person, book)
+    if @rentals.include?(person.id)
+      @rentals[person.id] << rental
+    else
+      @rentals[person.id] = [rental]
+    end
+  end
+
+  def rentals_of(person_id)
+    rentals = @rentals[person_id] || []
+    puts 'Rentals:'
+    rentals.each { |rental| puts "Date: #{rental.date}, Book \"#{rental.book.title}\" by #{rental.book.author}" }
+    nil
   end
 end
 
@@ -93,6 +115,26 @@ def create_book_menu(app)
   puts 'Book created succesfully!'
 end
 
+def create_rental_menu(app)
+  puts 'Please select a book from the following list by number:'
+  books = app.books
+  books.each_with_index { |book, index| puts "#{index}) Title: \"#{book.title}\" Author: #{book.author}" }
+  print "Enter the desired book:\t"
+  book_idx = gets.chomp.to_i
+
+  puts 'Please select a person from the following list by number, not ID:'
+  people = app.people
+  people.each_with_index { |p, index| puts "#{index}) [#{p.class}] Name: #{p.name}, ID: #{p.id}, Age: #{p.age}" }
+  print "Enter the person number:\t"
+  person_idx = gets.chomp.to_i
+
+  print "Please enter the date: [YYYY/MM/DD]:\t"
+  date = gets.chomp
+
+  app.create_rental(date, person_idx, book_idx)
+  puts 'Rental created succesfully!'
+end
+
 # rubocop:disable Metrics/CyclomaticComplexity
 # rubocop:disable Metrics/MethodLength
 def main
@@ -100,7 +142,7 @@ def main
   loop do
     print_menu
     option = gets.chomp.to_i
-    puts 'Please enter a valid option' if option < 1 || option > 7
+
     case option
     when 1
       app.list_books
@@ -113,12 +155,16 @@ def main
     when 4
       create_book_menu(app)
     when 5
-      puts 'You chose Create a rental'
+      create_rental_menu(app)
     when 6
-      puts 'You chose list all rentals for a given id'
+      print 'Enter the person ID:'
+      id = gets.chomp.to_i
+      puts app.rentals_of(id)
     when 7
       puts 'Thank you for using this app, until next time!'
       break
+    else
+      puts 'Please enter a valid option'
     end
   end
 end
