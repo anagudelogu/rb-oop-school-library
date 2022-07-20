@@ -3,10 +3,21 @@
 require './lib/person'
 require './lib/student'
 require './lib/teacher'
+require './lib/book'
 
 class App
   def initialize
     @people = []
+    @books = []
+  end
+
+  def list_books
+    if @books.size.positive?
+      puts 'Here are the people registered at the moment:'
+      @books.each { |book| puts "Title: \"#{book.title}\" Author: #{book.author}" }
+    else
+      puts 'There are no books registered at the moment'
+    end
   end
 
   def list_people
@@ -21,6 +32,10 @@ class App
   def create_person(type, age, name, specialization = nil, parent_permission: true)
     @people << Student.new(age, name, parent_permission: parent_permission) if type == 's'
     @people << Teacher.new(age, specialization, name) if type == 't'
+  end
+
+  def create_book(title, author)
+    @books << Book.new(title, author)
   end
 end
 
@@ -69,6 +84,15 @@ def create_person_menu(app, type)
   end
 end
 
+def create_book_menu(app)
+  print "Title:\t"
+  title = gets.chomp
+  print "Author:\t"
+  author = gets.chomp
+  app.create_book(title, author)
+  puts 'Book created succesfully!'
+end
+
 # rubocop:disable Metrics/CyclomaticComplexity
 # rubocop:disable Metrics/MethodLength
 def main
@@ -79,7 +103,7 @@ def main
     puts 'Please enter a valid option' if option < 1 || option > 7
     case option
     when 1
-      puts 'You chose list all books'
+      app.list_books
     when 2
       app.list_people
     when 3
@@ -87,7 +111,7 @@ def main
       type = gets.chomp
       create_person_menu(app, type)
     when 4
-      puts 'You chose Create a book'
+      create_book_menu(app)
     when 5
       puts 'You chose Create a rental'
     when 6
