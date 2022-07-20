@@ -1,10 +1,9 @@
-#!/usr/bin/env ruby
 
-require './lib/person'
-require './lib/student'
-require './lib/teacher'
-require './lib/book'
-require './lib/rental'
+require_relative './person'
+require_relative './student'
+require_relative './teacher'
+require_relative './book'
+require_relative './rental'
 
 class App
   attr_reader :books, :people, :rentals
@@ -134,40 +133,3 @@ def create_rental_menu(app)
   app.create_rental(date, person_idx, book_idx)
   puts 'Rental created succesfully!'
 end
-
-# rubocop:disable Metrics/CyclomaticComplexity
-# rubocop:disable Metrics/MethodLength
-def main
-  app = App.new
-  loop do
-    print_menu
-    option = gets.chomp.to_i
-
-    case option
-    when 1
-      app.list_books
-    when 2
-      app.list_people
-    when 3
-      print "Do you want to create a student (s) or a teacher (t)? [input letter]:\t"
-      type = gets.chomp
-      create_person_menu(app, type)
-    when 4
-      create_book_menu(app)
-    when 5
-      create_rental_menu(app)
-    when 6
-      print 'Enter the person ID:'
-      id = gets.chomp.to_i
-      puts app.rentals_of(id)
-    when 7
-      puts 'Thank you for using this app, until next time!'
-      break
-    else
-      puts 'Please enter a valid option'
-    end
-  end
-end
-# rubocop:enable Metrics/MethodLength
-# rubocop:enable Metrics/CyclomaticComplexity
-main
