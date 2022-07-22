@@ -52,6 +52,7 @@ class App
   end
 
   def rentals_of(person_id)
+    raise TypeError.new("Invalid id type") if person_id.class == String
     rentals = @rentals[person_id] || []
     puts 'Rentals:'
     rentals.each { |rental| puts "Date: #{rental.date}, Book \"#{rental.book.title}\" by #{rental.book.author}" }

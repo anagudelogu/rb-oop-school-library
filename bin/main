@@ -1,5 +1,16 @@
 #!/usr/bin/env ruby
 
+=begin
+
+***** The Problem *****
+
+Using the App I encountered a problem trying to list the rentals for a person,
+adding the rental seems fine, but when you try to list all the rentals
+for a person I get an error.
+
+=end
+
+
 require './lib/app'
 
 # rubocop:disable Metrics/CyclomaticComplexity
@@ -25,7 +36,7 @@ def main
       create_rental_menu(app)
     when 6
       print 'Enter the person ID:'
-      id = gets.chomp.to_i
+      id = gets.chomp
       puts app.rentals_of(id)
     when 7
       puts 'Thank you for using this app, until next time!'
