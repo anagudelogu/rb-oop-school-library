@@ -45,7 +45,7 @@ class App
     book = @books[book_idx]
     rental = Rental.new(date, person, book)
     if @rentals.include?(person.id)
-      @rentals[person.id] << rental
+      @rentals[person.id] << rental 
     else
       @rentals[person.id] = [rental]
     end
@@ -59,21 +59,6 @@ class App
   end
 end
 
-def print_menu
-  puts
-  puts "Welcome to School Library App!
-
-  Please choose an option by entering a number:
-    1 - List all books
-    2 - List all people
-    3 - Create a person
-    4 - Create a book
-    5 - Create a rental
-    6 - List all rentals for a given person id
-    7 - Exit"
-
-  print "Enter your option here:\t"
-end
 
 def parent_permission?(char)
   return true if char.upcase == 'Y'
@@ -81,34 +66,32 @@ def parent_permission?(char)
   false
 end
 
-def create_person_menu(app, type)
+def create_person_menu(app)
+  print "Do you want to create a student (s) or a teacher (t)? [input letter]:\t"
+  type = gets.chomp
+  print "Age:\t"
+  age = gets.chomp.to_i
+  print "Name:\t"
+  name = gets.chomp.capitalize
   case type.downcase
   when 's'
-    print "Age:\t"
-    age = gets.chomp
-    print "Name:\t"
-    name = gets.chomp
     print "Has parent permission? [Y/N]:\t"
     parent_permission = gets.chomp
-    app.create_person(type, age.to_i, name, parent_permission: parent_permission?(parent_permission))
+    app.create_person(type, age, name, parent_permission: parent_permission?(parent_permission))
     puts 'Person student created succesfully!'
   when 't'
-    print "Age:\t"
-    age = gets.chomp
-    print "Name:\t"
-    name = gets.chomp
     print "Specialization:\t"
-    specialization = gets.chomp
-    app.create_person(type, age.to_i, name, specialization)
+    specialization = gets.chomp.capitalize
+    app.create_person(type, age, name, specialization)
     puts 'Person teacher created succesfully!'
   end
 end
 
 def create_book_menu(app)
   print "Title:\t"
-  title = gets.chomp
+  title = gets.chomp.capitalize
   print "Author:\t"
-  author = gets.chomp
+  author = gets.chomp.capitalize
   app.create_book(title, author)
   puts 'Book created succesfully!'
 end
