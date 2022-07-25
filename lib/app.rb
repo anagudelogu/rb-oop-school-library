@@ -45,7 +45,7 @@ class App
     book = @books[book_idx]
     rental = Rental.new(date, person, book)
     if @rentals.include?(person.id)
-      @rentals[person.id] << rental 
+      @rentals[person.id] << rental
     else
       @rentals[person.id] = [rental]
     end
@@ -58,7 +58,6 @@ class App
     nil
   end
 end
-
 
 def parent_permission?(char)
   return true if char.upcase == 'Y'
