@@ -59,15 +59,6 @@ class App
   end
 end
 
-def create_book_menu(app)
-  print "Title:\t"
-  title = gets.chomp.capitalize
-  print "Author:\t"
-  author = gets.chomp.capitalize
-  app.create_book(title, author)
-  puts 'Book created succesfully!'
-end
-
 def create_rental_menu(app)
   puts 'Please select a book from the following list by number:'
   books = app.books
