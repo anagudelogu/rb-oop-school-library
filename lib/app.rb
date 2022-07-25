@@ -29,6 +29,7 @@ class App
     else
       puts 'There are no people registered at the moment'
     end
+    nil
   end
 
   def create_person(type, age, name, specialization = nil, parent_permission: true)
@@ -54,7 +55,10 @@ class App
   def rentals_of(person_id)
     rentals = @rentals[person_id] || []
     puts 'Rentals:'
-    rentals.each { |rental| puts "Date: #{rental.date}, Book \"#{rental.book.title}\" by #{rental.book.author}" }
+    puts 'No rentals under this ID' if rentals.empty?
+    rentals.each do |rental|
+      puts "Date: #{rental.date}, Book: \"#{rental.book.title}\" by #{rental.book.author}, Rented by: #{rental.person.name}"
+    end
     nil
   end
 end

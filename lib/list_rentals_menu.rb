@@ -7,6 +7,7 @@ class ListRentalsMenu < Menu
   end
 
   def display
+    puts @app.list_people
     print 'Enter the person ID:'
     id = gets.chomp.to_i
     @app.rentals_of(id)
