@@ -4,6 +4,7 @@ require './lib/app'
 require_relative '../lib/main_menu'
 require_relative '../lib/person_menu'
 require_relative '../lib/book_menu'
+require_relative '../lib/rentals_menu'
 
 # rubocop:disable Metrics/CyclomaticComplexity
 # rubocop:disable Metrics/MethodLength
@@ -23,11 +24,11 @@ def main
     when 4
       BookMenu.new(app).display
     when 5
-      create_rental_menu(app)
+      RentalsMenu.new(app).display
     when 6
       print 'Enter the person ID:'
       id = gets.chomp.to_i
-      puts app.rentals_of(id)
+      app.rentals_of(id)
     when 7
       puts 'Thank you for using this app, until next time!'
       break
