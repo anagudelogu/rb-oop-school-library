@@ -2,6 +2,7 @@
 
 require './lib/app'
 require_relative '../lib/main_menu'
+require_relative '../lib/person_menu'
 
 # rubocop:disable Metrics/CyclomaticComplexity
 # rubocop:disable Metrics/MethodLength
@@ -17,7 +18,7 @@ def main
     when 2
       app.list_people
     when 3
-      create_person_menu(app)
+      PersonMenu.new(app).display
     when 4
       create_book_menu(app)
     when 5
