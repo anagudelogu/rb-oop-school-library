@@ -23,6 +23,6 @@ class Student < Person
   end
 
   def self.json_create(student)
-    new(student['age'], student['name'], parent_permission: student['parent_permission'], id: student['id'].to_i)
+    new(student['age'], student['name'], parent_permission: student['parent_permission'], id: student['id'])
   end
 end
