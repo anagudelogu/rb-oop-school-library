@@ -1,0 +1,22 @@
+{
+  "rentals": {
+    "797": [
+      {
+        "json_class": "Rental",
+        "date": "2022/07/26",
+        "person": {
+          "json_class": "Student",
+          "id": "797",
+          "age": 15,
+          "name": "Andres",
+          "parent_permission": false
+        },
+        "book": {
+          "json_class": "Book",
+          "title": "The Analyst",
+          "author": "John Katzenbatch"
+        }
+      }
+    ]
+  }
+}
