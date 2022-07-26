@@ -9,7 +9,7 @@ class ListRentalsMenu < Menu
   def display
     puts @app.list_people
     print 'Enter the person ID:'
-    id = gets.chomp.to_i
+    id = gets.chomp
     @app.rentals_of(id)
   end
 end

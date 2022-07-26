@@ -30,6 +30,7 @@ def main
       ListRentalsMenu.new(app).display
     when 7
       puts 'Thank you for using this app, until next time!'
+      app.write_data
       break
     else
       puts 'Please enter a valid option'

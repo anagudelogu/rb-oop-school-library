@@ -1,0 +1,25 @@
+{
+  "people": [
+    {
+      "json_class": "Student",
+      "id": "797",
+      "age": 15,
+      "name": "Andres",
+      "parent_permission": false
+    },
+    {
+      "json_class": "Student",
+      "id": "620",
+      "age": 15,
+      "name": "Rose",
+      "parent_permission": false
+    },
+    {
+      "json_class": "Teacher",
+      "id": "828",
+      "age": 25,
+      "name": "Mariana",
+      "specialization": "Math"
+    }
+  ]
+}

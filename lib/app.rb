@@ -3,14 +3,38 @@ require_relative './student'
 require_relative './teacher'
 require_relative './book'
 require_relative './rental'
+require 'json'
 
 class App
   attr_reader :books, :people, :rentals
 
   def initialize
-    @people = []
-    @books = []
-    @rentals = {}
+    books = File.file?('data/books.json') ? read_data('data/books.json') : {}
+    people = File.file?('data/people.json') ? read_data('data/people.json') : {}
+    rentals = File.file?('data/rentals.json') ? read_data('data/rentals.json') : {}
+    @people = people['people'] || []
+    @books = books['books'] || []
+    @rentals = rentals['rentals'] || {}
+  end
+
+  def read_data(file)
+    File.open(file) { |f| JSON.parse(f.read, create_additions: true) }
+  end
+
+  def write_data
+    files = [
+      { name: 'people', payload: @people },
+      { name: 'books', payload: @books },
+      { name: 'rentals', payload: @rentals }
+    ]
+
+    files.each do |file|
+      File.open("data/#{file[:name]}.json", 'w') do |f|
+        data_hash = { file[:name] => file[:payload] }
+        json = JSON.pretty_generate(data_hash)
+        f.write(json)
+      end
+    end
   end
 
   def list_books
