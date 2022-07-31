@@ -14,12 +14,16 @@ class Rental
     {
       JSON.create_id => self.class.name,
       'date' => @date,
-      'person' => @person,
-      'book' => @book
+      'person_id' => @person.id,
+      'book_title' => @book.title
     }.to_json(*args)
   end
 
   def self.json_create(rental)
-    new(rental['date'], rental['person'], rental['book'])
+    {
+      date: rental['date'],
+      person_id: rental['person_id'],
+      book_title: rental['book_title']
+    }
   end
 end

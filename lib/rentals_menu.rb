@@ -22,7 +22,10 @@ class RentalsMenu < Menu
     print "Please enter the date: [YYYY/MM/DD]:\t"
     date = gets.chomp
 
-    @app.create_rental(date, person_idx, book_idx)
+    person = @app.people[person_idx]
+    book = @app.books[book_idx]
+
+    @app.create_rental(date, person, book)
     puts 'Rental created succesfully!'
   end
 end

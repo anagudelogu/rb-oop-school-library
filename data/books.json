@@ -2,8 +2,13 @@
   "books": [
     {
       "json_class": "Book",
-      "title": "The Analyst",
-      "author": "John Katzenbatch"
+      "title": "The analyst",
+      "author": "John katzenbatch"
+    },
+    {
+      "json_class": "Book",
+      "title": "Maru",
+      "author": "Maru"
     }
   ]
 }

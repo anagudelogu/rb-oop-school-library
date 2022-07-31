@@ -9,16 +9,38 @@ class App
   attr_reader :books, :people, :rentals
 
   def initialize
-    books = File.file?('data/books.json') ? read_data('data/books.json') : {}
-    people = File.file?('data/people.json') ? read_data('data/people.json') : {}
-    rentals = File.file?('data/rentals.json') ? read_data('data/rentals.json') : {}
-    @people = people['people'] || []
-    @books = books['books'] || []
-    @rentals = rentals['rentals'] || {}
+    @books = read_data('books')
+    @people = read_data('people')
+    @rentals = read_rentals('rentals')
   end
 
-  def read_data(file)
-    File.open(file) { |f| JSON.parse(f.read, create_additions: true) }
+  def read_data(file_name)
+    if File.file?("data/#{file_name}.json")
+      hash = File.open("data/#{file_name}.json") { |f| JSON.parse(f.read, create_additions: true) }
+      return hash[file_name]
+    end
+    file_name == 'rentals' ? {} : []
+  end
+
+  def read_rentals(file_name)
+    hash = read_data(file_name)
+    rentals_hash = {}
+    hash.keys.map do |key|
+      hash[key].map do |rental|
+        # search for the person matching the id
+        person = @people.find { |p| p.id == rental[:person_id] }
+        # search for the book matching the title
+        book = @books.find { |b| b.title == rental[:book_title] }
+        # Create a new rental.
+        rental = Rental.new(rental[:date], person, book)
+        if rentals_hash.include?(person.id)
+          rentals_hash[person.id] << rental
+        else
+          rentals_hash[person.id] = [rental]
+        end
+      end
+    end
+    rentals_hash
   end
 
   def write_data
@@ -65,9 +87,7 @@ class App
     @books << Book.new(title, author)
   end
 
-  def create_rental(date, person_idx, book_idx)
-    person = @people[person_idx]
-    book = @books[book_idx]
+  def create_rental(date, person, book)
     rental = Rental.new(date, person, book)
     if @rentals.include?(person.id)
       @rentals[person.id] << rental
